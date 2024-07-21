@@ -1,0 +1,85 @@
+.register-container {
+  min-width: 400px;
+
+  margin: 40px auto;
+  padding: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  overflow: none;
+}
+
+.input-group {
+  position: relative;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 90%;
+  padding: 15px 10px;
+  font-size: 16px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  outline: none;
+  background-color: white;
+  z-index: 1;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border-color: #0f969c;
+  box-shadow: 0 0 5px rgba(15, 150, 156, 0.5);
+}
+
+input[type="submit"] {
+  padding: 12px 20px;
+  margin-top: 10px;
+  background-color: #0f969c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover {
+  background-color: #072e33;
+}
+
+label {
+  position: absolute;
+  top: 15px; /* Adjusted for better vertical alignment */
+  left: 10px;
+  color: #888;
+  transition: transform 0.3s, font-size 0.3s, color 0.3s;
+  pointer-events: none;
+  background-color: white;
+  padding: 0 4px;
+  transform-origin: left bottom; /* Ensures the label scales down smoothly */
+  z-index: 0;
+}
+
+input:focus + label,
+input:not(:placeholder-shown) + label {
+  transform: translateY(-30px) scale(0.8); /* Moves the label up and scales down */
+  color: #0f969c;
+}
+
+p {
+  text-align: center;
+  margin-top: 20px;
+}
