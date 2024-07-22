@@ -1,0 +1,91 @@
+/* navbar.css */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  background-color: #f8f9fa;
+  padding: 0 20px;
+  width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.navbar:hover {
+  background-color: #e9ecef;
+}
+
+.navbar h1 {
+  font-size: 1.8rem;
+  color: #343a40;
+  margin: 0;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 30px;
+  margin: 0 auto; /* Center the container */
+}
+
+.links {
+  display: flex;
+  list-style: none;
+  align-items: center;
+  gap: 60px;
+  padding-right: 250px;
+}
+
+.links li {
+  cursor: pointer;
+  position: relative;
+}
+
+.links li a {
+  text-decoration: none;
+  color: #343a40;
+  font-size: 1rem;
+  transition: color 0.3s ease-in-out;
+}
+
+.links li a:hover {
+  color: #007bff;
+}
+
+.links li::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #007bff;
+  transition: width 0.3s;
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+}
+
+.links li:hover::after {
+  width: 100%;
+}
+
+button {
+  cursor: pointer;
+  padding: 10px 15px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 3px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}

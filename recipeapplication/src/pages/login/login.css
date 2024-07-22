@@ -1,7 +1,7 @@
+/* login.css */
 .login-container {
   min-width: 400px;
-
-  margin: 40px auto;
+  margin: 0 auto;
   padding: 30px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
@@ -17,6 +17,7 @@
   flex-direction: column;
   width: 100%;
   justify-content: center;
+  align-items: center;
   overflow: none;
 }
 
@@ -55,4 +56,13 @@ input:focus {
 .error-message {
   color: #ff0000;
   font-size: 14px;
+}
+
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #3c3939;
 }

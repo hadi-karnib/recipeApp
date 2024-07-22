@@ -11,7 +11,6 @@ require '../connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $rawData = file_get_contents("php://input");
-
     $data = json_decode($rawData, true);
 
     $email = $data['email'];
@@ -21,23 +20,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Hash the password
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-    // Check if email or username already exists
-    $checkEmail = $conn->prepare('SELECT * FROM users WHERE email = ? OR username = ?');
-    $checkEmail->bind_param('ss', $email, $username);
+    // Check if email already exists
+    $checkEmail = $conn->prepare('SELECT * FROM users WHERE email = ?');
+    $checkEmail->bind_param('s', $email);
     $checkEmail->execute();
     $checkEmail->store_result();
 
     if ($checkEmail->num_rows > 0) {
-        echo json_encode(["error" => "Email or Username already exists"]);
+        echo json_encode(["error" => "Email already exists"]);
+        $checkEmail->close();
+        $conn->close();
         exit;
-    } else {
-        $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
-        $stmt->bind_param('sss', $username, $email, $hashedPassword);
-        $stmt->execute();
-        echo json_encode(["success" => "User registered successfully"]);
     }
-
     $checkEmail->close();
+
+    // Check if username already exists
+    $checkUsername = $conn->prepare('SELECT * FROM users WHERE username = ?');
+    $checkUsername->bind_param('s', $username);
+    $checkUsername->execute();
+    $checkUsername->store_result();
+
+    if ($checkUsername->num_rows > 0) {
+        echo json_encode(["error" => "Username already exists"]);
+        $checkUsername->close();
+        $conn->close();
+        exit;
+    }
+    $checkUsername->close();
+
+    // Insert new user
+    $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
+    $stmt->bind_param('sss', $username, $email, $hashedPassword);
+    $stmt->execute();
+    echo json_encode(["success" => "User registered successfully"]);
+
     $stmt->close();
     $conn->close();
 } else {

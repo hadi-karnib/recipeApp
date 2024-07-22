@@ -14,23 +14,27 @@ require '../connection.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $rawData = file_get_contents("php://input");
 
-
     $data = json_decode($rawData, true);
 
     $email = $data['email'];
     $password = $data['password'];
 
-    $stmt = $conn->prepare('SELECT id, email, password FROM users WHERE email = ?');
+    $stmt = $conn->prepare('SELECT id, email, username, password FROM users WHERE email = ?');
     $stmt->bind_param('s', $email);
     $stmt->execute();
     $stmt->store_result();
 
     if ($stmt->num_rows > 0) {
-        $stmt->bind_result($id, $emailFromDB, $hashedPasswordFromDB);
+        $stmt->bind_result($id, $emailFromDB, $usernameFromDB, $hashedPasswordFromDB);
         $stmt->fetch();
 
         if (password_verify($password, $hashedPasswordFromDB)) {
-            echo json_encode(["success" => "User logged in successfully"]);
+            echo json_encode([
+                "success" => "User logged in successfully",
+                "id" => $id,
+                "email" => $emailFromDB,
+                "username" => $usernameFromDB
+            ]);
         } else {
             echo json_encode(["error" => "Invalid password"]);
         }
