@@ -5,12 +5,15 @@ import Navbar from "./../../components/navbar/navbar";
 import "./recipe.css";
 import "./../../components/navbar/navbar.css";
 import jsPDF from "jspdf";
+import StarModal from "./starModal";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function Recipe() {
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const fetchComments = async () => {
     const recipe_id = id;
@@ -99,12 +102,53 @@ export default function Recipe() {
           }
         );
         setNewComment("");
-        fetchComments(); // Refresh comments after adding
+        fetchComments();
       } else {
         console.log("No user data found in local storage.");
       }
     } catch (error) {
       console.error("Failed to add comment:", error);
+    }
+  };
+
+  const handleSaveRating = async (rating) => {
+    try {
+      const userString = localStorage.getItem("user");
+      if (userString && userString.length > 0) {
+        const user = JSON.parse(userString);
+        const response = await axios.post(
+          "http://localhost/recipe/recipeApp/backend/recipes/addRating.php",
+          {
+            recipe_id: id,
+            user_id: user.id,
+            rating: rating,
+          }
+        );
+        console.log("Rating saved:", response.data);
+        toast.success("Rating submitted", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "colored",
+        });
+      } else {
+        console.log("No user data found in local storage.");
+      }
+    } catch (error) {
+      console.error("Failed to save rating:", error);
+
+      toast.error("Failed to save rating: " + error.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
     }
   };
 
@@ -132,6 +176,7 @@ export default function Recipe() {
   return (
     <div className="mainDiv">
       <Navbar />
+      <ToastContainer />
       <div className="content-container">
         <div className="recipe-container-custom">
           <h1 className="recipe-title-custom">{recipe.recipe_name}</h1>
@@ -140,7 +185,7 @@ export default function Recipe() {
           <ul className="recipe-list-custom">
             {JSON.parse(recipe.ingredients).map((ingredient, index) => (
               <li key={index} className="recipe-list-item-custom">
-                {ingredient}
+                • {ingredient}
               </li>
             ))}
           </ul>
@@ -148,7 +193,7 @@ export default function Recipe() {
           <ol className="recipe-steps-custom">
             {JSON.parse(recipe.steps).map((step, index) => (
               <li key={index} className="recipe-step-item-custom">
-                {step}
+                {index + 1}. {step}
               </li>
             ))}
           </ol>
@@ -172,10 +217,23 @@ export default function Recipe() {
               onChange={(e) => setNewComment(e.target.value)}
               placeholder="Add a comment"
             ></textarea>
-            <button onClick={handleCommentSubmit}>Submit Comment</button>
+            <div className="buttons">
+              <button onClick={handleCommentSubmit}>Submit Comment</button>
+              <button
+                className="rating-button"
+                onClick={() => setShowModal(true)}
+              >
+                Rate this Recipe
+              </button>
+            </div>
           </div>
         </div>
       </div>
+      <StarModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        onSubmit={handleSaveRating}
+      />
     </div>
   );
 }

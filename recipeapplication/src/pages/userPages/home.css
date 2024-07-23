@@ -1,6 +1,6 @@
 /* home.css */
 .home-container {
-  height: 100vh;
+  height: 100%;
   width: 100%;
   padding-top: 80px;
   background-color: antiquewhite;
@@ -15,7 +15,7 @@
   justify-content: center;
   gap: 16px;
   width: 100%;
-  padding: 20px;
+  padding: 40px;
 }
 
 .card {
