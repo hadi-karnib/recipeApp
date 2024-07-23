@@ -1,13 +1,15 @@
-// Recipe.js
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "./../../components/navbar/navbar";
 import "./recipe.css";
+import "./../../components/navbar/navbar.css";
 import jsPDF from "jspdf";
+
 export default function Recipe() {
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
+
   const downloadPdf = () => {
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.width;
@@ -65,6 +67,7 @@ export default function Recipe() {
 
     doc.save(`${recipe.recipe_name}.pdf`);
   };
+
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
@@ -73,6 +76,7 @@ export default function Recipe() {
           { id }
         );
         setRecipe(response.data);
+        console.log(response.data);
       } catch (error) {
         console.error("Error fetching recipe:", error);
       }
@@ -86,25 +90,31 @@ export default function Recipe() {
   }
 
   return (
-    <div className="recipe-container">
-      <Navbar />
-      <h1>{recipe.recipe_name}</h1>
-      <p>Created by: {recipe.username}</p>
-      <h2>Ingredients</h2>
-      <ul>
-        {JSON.parse(recipe.ingredients).map((ingredient, index) => (
-          <li key={index}>{ingredient}</li>
-        ))}
-      </ul>
-      <h2>Steps</h2>
-      <ol>
-        {JSON.parse(recipe.steps).map((step, index) => (
-          <li key={index}>{step}</li>
-        ))}
-      </ol>
-      <button className="download-button" onClick={downloadPdf}>
-        Download as PDF
-      </button>
+    <div className="maindiv">
+      <div className="recipe-container-custom">
+        <Navbar />
+        <h1 className="recipe-title-custom">{recipe.recipe_name}</h1>
+        <p className="recipe-author-custom">Created by: {recipe.username}</p>
+        <h2 className="recipe-section-title-custom">Ingredients</h2>
+        <ul className="recipe-list-custom">
+          {JSON.parse(recipe.ingredients).map((ingredient, index) => (
+            <li key={index} className="recipe-list-item-custom">
+              {ingredient}
+            </li>
+          ))}
+        </ul>
+        <h2 className="recipe-section-title-custom">Steps</h2>
+        <ol className="recipe-steps-custom">
+          {JSON.parse(recipe.steps).map((step, index) => (
+            <li key={index} className="recipe-step-item-custom">
+              {step}
+            </li>
+          ))}
+        </ol>
+        <button className="download-button-custom" onClick={downloadPdf}>
+          Download as PDF
+        </button>
+      </div>
     </div>
   );
 }

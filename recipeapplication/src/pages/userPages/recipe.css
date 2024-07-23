@@ -1,4 +1,3 @@
-/* recipe.css */
 body {
   margin: 0;
   padding: 0;
@@ -7,93 +6,137 @@ body {
   background-color: #f8f9fa;
 }
 
-.recipe-container {
-  max-width: 800px;
-  margin: 100px auto 20px auto;
+.mainDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px;
   padding: 40px;
-  background-color: #fff;
+  background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
   font-family: "Arial", sans-serif;
   color: #333;
 }
 
-.recipe-container h1 {
+.recipe-container-custom,
+.comments-container {
+  flex: 1;
+  margin: 0 20px;
+}
+
+.recipe-container-custom h1,
+.recipe-container-custom p,
+.recipe-section-title-custom,
+.recipe-list-custom,
+.recipe-steps-custom,
+.download-button-custom {
+  margin-bottom: 20px;
+}
+
+.recipe-container-custom h1 {
   font-size: 2.5rem;
   color: #333;
-  margin-bottom: 20px;
   text-align: center;
   font-family: "Georgia", serif;
 }
 
-.recipe-container p {
+.recipe-container-custom p {
   font-size: 1.1rem;
   color: #555;
-  margin-bottom: 20px;
   text-align: center;
 }
 
-.recipe-container h2 {
+.recipe-section-title-custom {
   font-size: 1.8rem;
   color: #007bff;
-  margin-bottom: 10px;
   border-bottom: 2px solid #007bff;
   padding-bottom: 5px;
 }
 
-.recipe-container ul,
-.recipe-container ol {
-  margin: 0 0 20px 20px;
+.recipe-list-custom,
+.recipe-steps-custom {
+  list-style: none;
   padding: 0;
 }
 
-.recipe-container ul li,
-.recipe-container ol li {
-  margin-bottom: 10px;
+.recipe-list-custom li,
+.recipe-steps-custom li {
   font-size: 1.1rem;
   color: #555;
+  margin-bottom: 10px;
 }
 
-.navbar {
-  background-color: #ffffff;
+.download-button-custom {
+  display: block;
+  margin: 0 auto;
   padding: 10px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-  position: fixed;
-  width: 100%;
-  top: 0;
-  z-index: 1000;
-}
-
-.navbar h1 {
-  font-size: 1.8rem;
-  color: #007bff;
-  font-family: "Georgia", serif;
-  margin: 0;
-}
-
-.navbar .links {
-  display: flex;
-  gap: 20px;
-}
-
-.navbar .links a {
-  text-decoration: none;
-  color: #007bff;
-  font-size: 1rem;
-  padding: 10px 20px;
-  border-radius: 8px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.navbar .links a:hover {
   background-color: #007bff;
   color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-size: 1.1rem;
+  font-weight: bold;
 }
 
-button {
+.download-button-custom:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.comments-container {
+  border-left: 1px solid #ccc;
+  padding-left: 20px;
+}
+
+.comments-container h2 {
+  font-size: 1.8rem;
+  color: #007bff;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.comment {
+  margin-bottom: 20px;
+}
+
+.comment p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.comment-author {
+  font-weight: bold;
+  color: #333;
+}
+
+.add-comment {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.add-comment textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: vertical;
+}
+
+.add-comment button {
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -101,21 +144,12 @@ button {
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-button:hover {
-  background-color: #0056b3;
-  transform: scale(1.05);
-}
-
-button:focus {
-  outline: none;
-}
-
-/* Additional styling for download button */
-.download-button {
-  display: block;
-  margin: 20px auto 0 auto;
+  align-self: center;
   font-size: 1.1rem;
   font-weight: bold;
+}
+
+.add-comment button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
 }

@@ -4,9 +4,7 @@ header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-Type: application/json");
 
-// Handle preflight requests
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    // Return early with headers only for preflight requests
     exit;
 }
 require '../connection.php';
