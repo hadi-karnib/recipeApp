@@ -17,10 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $data['password'];
     $username = $data['username'];
 
-    // Hash the password
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-    // Check if email already exists
     $checkEmail = $conn->prepare('SELECT * FROM users WHERE email = ?');
     $checkEmail->bind_param('s', $email);
     $checkEmail->execute();
@@ -34,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     $checkEmail->close();
 
-    // Check if username already exists
     $checkUsername = $conn->prepare('SELECT * FROM users WHERE username = ?');
     $checkUsername->bind_param('s', $username);
     $checkUsername->execute();
@@ -48,7 +45,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     $checkUsername->close();
 
-    // Insert new user
     $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
     $stmt->bind_param('sss', $username, $email, $hashedPassword);
     $stmt->execute();
