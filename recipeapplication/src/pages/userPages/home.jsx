@@ -4,6 +4,7 @@ import axios from "axios";
 import "./home.css";
 import { useNavigate } from "react-router-dom";
 import SearchInput, { createFilter } from "react-search-input";
+import { gsap } from "gsap";
 
 const KEYS_TO_FILTERS = ["recipe_name", "username"];
 
@@ -24,12 +25,57 @@ export default function Home() {
         );
         setRecipes(response.data);
         console.log(response.data);
+
+        gsap.fromTo(
+          ".card",
+          { opacity: 0, y: 50 },
+          { opacity: 1, y: 0, duration: 0.8, stagger: 0.2, ease: "power2.out" }
+        );
       } catch (error) {
         console.error("Error fetching recipes:", error);
       }
     };
 
     fetchRecipes();
+  }, []);
+
+  useEffect(() => {
+    const input = document.querySelector(".search-input");
+
+    if (input) {
+      gsap
+        .fromTo(
+          input,
+          { scale: 1 },
+          {
+            scale: 1.05,
+            duration: 0.5,
+            ease: "power1.inOut",
+            repeat: -1,
+            yoyo: true,
+            onUpdate: function () {
+              input.style.boxShadow = `0 0 ${10 * this.progress()}px lightgrey`;
+            },
+          }
+        )
+        .play();
+
+      input.addEventListener("focus", () => {
+        gsap.to(input, {
+          scale: 1.1,
+          boxShadow: "0 0 20px lightgrey",
+          duration: 0.3,
+        });
+      });
+
+      input.addEventListener("blur", () => {
+        gsap.to(input, {
+          scale: 1,
+          boxShadow: "0 0 10px lightgrey",
+          duration: 0.3,
+        });
+      });
+    }
   }, []);
 
   const filteredRecipes = recipes.filter(

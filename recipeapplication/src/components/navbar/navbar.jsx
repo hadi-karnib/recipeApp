@@ -1,9 +1,14 @@
 // Navbar.js
 import React from "react";
 import "./navbar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const logout = () => {
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
   return (
     <div className="navbar">
       <div className="navbar-container">
@@ -16,7 +21,7 @@ const Navbar = () => {
             <Link to="/add-recipe">Add a new recipe</Link>
           </li>
         </ul>
-        <button>Logout</button>
+        <button onClick={logout}>Logout</button>
       </div>
     </div>
   );
