@@ -10,15 +10,18 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y: scroll;
+  padding-top: 50px;
 }
 
 .content-container {
   display: flex;
   flex-direction: row;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1350px;
   margin: 20px;
   padding: 40px;
+  padding-top: 60px;
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
@@ -96,6 +99,8 @@ body {
 .comments-container {
   border-left: 1px solid #ccc;
   padding-left: 20px;
+  max-height: 60vh; /* Adjust the height as needed */
+  overflow-y: scroll; /* Make the comments container scrollable */
 }
 
 .comments-container h2 {
@@ -107,6 +112,9 @@ body {
 
 .comment {
   margin-bottom: 20px;
+  background-color: #f1f1f1;
+  padding: 10px;
+  border-radius: 8px;
 }
 
 .comment p {
@@ -128,14 +136,16 @@ body {
 }
 
 .add-comment textarea {
-  width: 100%;
+  width: 96%;
   padding: 10px;
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 5px;
   resize: vertical;
 }
-
+::-webkit-scrollbar {
+  display: none;
+}
 .add-comment button {
   background-color: #007bff;
   color: #fff;

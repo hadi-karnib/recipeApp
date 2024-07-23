@@ -9,6 +9,22 @@ import jsPDF from "jspdf";
 export default function Recipe() {
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
+
+  const fetchComments = async () => {
+    const recipe_id = id;
+    try {
+      const response = await axios.post(
+        "http://localhost/recipe/recipeApp/backend/recipes/getRecipeComments.php",
+        { recipe_id }
+      );
+      setComments(response.data);
+      console.log("comments", response.data);
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
 
   const downloadPdf = () => {
     const doc = new jsPDF();
@@ -68,6 +84,30 @@ export default function Recipe() {
     doc.save(`${recipe.recipe_name}.pdf`);
   };
 
+  const handleCommentSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const userString = localStorage.getItem("user");
+      if (userString && userString.length > 0) {
+        const user = JSON.parse(userString);
+        const response = await axios.post(
+          "http://localhost/recipe/recipeApp/backend/recipes/addComment.php",
+          {
+            recipe_id: id,
+            user_id: user.id,
+            content: newComment,
+          }
+        );
+        setNewComment("");
+        fetchComments(); // Refresh comments after adding
+      } else {
+        console.log("No user data found in local storage.");
+      }
+    } catch (error) {
+      console.error("Failed to add comment:", error);
+    }
+  };
+
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
@@ -76,7 +116,7 @@ export default function Recipe() {
           { id }
         );
         setRecipe(response.data);
-        console.log(response.data);
+        fetchComments();
       } catch (error) {
         console.error("Error fetching recipe:", error);
       }
@@ -90,30 +130,51 @@ export default function Recipe() {
   }
 
   return (
-    <div className="maindiv">
-      <div className="recipe-container-custom">
-        <Navbar />
-        <h1 className="recipe-title-custom">{recipe.recipe_name}</h1>
-        <p className="recipe-author-custom">Created by: {recipe.username}</p>
-        <h2 className="recipe-section-title-custom">Ingredients</h2>
-        <ul className="recipe-list-custom">
-          {JSON.parse(recipe.ingredients).map((ingredient, index) => (
-            <li key={index} className="recipe-list-item-custom">
-              {ingredient}
-            </li>
-          ))}
-        </ul>
-        <h2 className="recipe-section-title-custom">Steps</h2>
-        <ol className="recipe-steps-custom">
-          {JSON.parse(recipe.steps).map((step, index) => (
-            <li key={index} className="recipe-step-item-custom">
-              {step}
-            </li>
-          ))}
-        </ol>
-        <button className="download-button-custom" onClick={downloadPdf}>
-          Download as PDF
-        </button>
+    <div className="mainDiv">
+      <Navbar />
+      <div className="content-container">
+        <div className="recipe-container-custom">
+          <h1 className="recipe-title-custom">{recipe.recipe_name}</h1>
+          <p className="recipe-author-custom">Created by: {recipe.username}</p>
+          <h2 className="recipe-section-title-custom">Ingredients</h2>
+          <ul className="recipe-list-custom">
+            {JSON.parse(recipe.ingredients).map((ingredient, index) => (
+              <li key={index} className="recipe-list-item-custom">
+                {ingredient}
+              </li>
+            ))}
+          </ul>
+          <h2 className="recipe-section-title-custom">Steps</h2>
+          <ol className="recipe-steps-custom">
+            {JSON.parse(recipe.steps).map((step, index) => (
+              <li key={index} className="recipe-step-item-custom">
+                {step}
+              </li>
+            ))}
+          </ol>
+          <button className="download-button-custom" onClick={downloadPdf}>
+            Download as PDF
+          </button>
+        </div>
+        <div className="comments-container">
+          <h2>Comments</h2>
+          {comments &&
+            comments.map((comment, index) => (
+              <div key={index} className="comment">
+                <p className="comment-author">
+                  {comment.username}: {comment.content}
+                </p>
+              </div>
+            ))}
+          <div className="add-comment">
+            <textarea
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="Add a comment"
+            ></textarea>
+            <button onClick={handleCommentSubmit}>Submit Comment</button>
+          </div>
+        </div>
       </div>
     </div>
   );
