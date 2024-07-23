@@ -64,20 +64,20 @@ input[type="submit"]:hover {
 
 label {
   position: absolute;
-  top: 15px; /* Adjusted for better vertical alignment */
+  top: 10px;
   left: 10px;
   color: #888;
   transition: transform 0.3s, font-size 0.3s, color 0.3s;
   pointer-events: none;
   background-color: white;
   padding: 0 4px;
-  transform-origin: left bottom; /* Ensures the label scales down smoothly */
+  transform-origin: left bottom;
   z-index: 0;
 }
 
 input:focus + label,
 input:not(:placeholder-shown) + label {
-  transform: translateY(-30px) scale(0.8); /* Moves the label up and scales down */
+  transform: translateY(-30px) scale(0.8);
   color: #0f969c;
 }
 

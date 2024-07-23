@@ -9,6 +9,35 @@
   align-items: center;
 }
 
+.search-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.search-input {
+  width: 100%;
+  padding: 15px 20px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 25px;
+  outline: none;
+  transition: box-shadow 0.3s, transform 0.3s;
+  color: white;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.2rem;
+}
+
+.search-input:focus {
+  box-shadow: 0 0 10px rgba(175, 66, 97, 0.5);
+  transform: scale(1.05);
+}
+
 .cards-container {
   display: flex;
   flex-wrap: wrap;
@@ -23,7 +52,7 @@
   border-radius: 12px;
   padding: 20px;
   margin: 16px;
-  background: linear-gradient(135deg, #f9f9f9 0%, #e6e6e6 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #e6e6e6 100%);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
   width: 300px;
   transition: transform 0.3s, box-shadow 0.3s;
@@ -50,4 +79,21 @@
 
 .card p:last-child {
   margin-bottom: 0;
+}
+
+.card button {
+  display: block;
+  margin: 10px auto 0;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.card button:hover {
+  background-color: #0056b3;
+  transform: translateY(-3px);
 }
